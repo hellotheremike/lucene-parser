@@ -28,8 +28,10 @@
   },
   "devDependencies": {
     "chai": "^2.1.1",
-    "lodash": "^3.5.0",
     "mocha": "^2.2.1"
+  },
+  "dependencies": {
+    "lodash": "^3.5.0"
   },
   "homepage": "https://github.com/Majkeen/lucene-parser",
   "directories": {
