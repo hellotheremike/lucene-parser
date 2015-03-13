@@ -1,7 +1,7 @@
-Scapegoat
+Lucene-parser
 =========
 
-A minimal node module providing utility methods to `escape` and `unescape` HTML entities
+A minimal node module providing utility methods to `parse` an `search query` to lucene syntax.
 
 ## Installation
 
@@ -12,15 +12,11 @@ A minimal node module providing utility methods to `escape` and `unescape` HTML 
 ## Usage
 
 ```js
-  var scapegoat = require('scapegoat')
-      escape = scapegoat.escape,
-      unescape = scapegoat.unescape;
+  var lucene_parser = require('scapegoat')
+  lucene_parser.setSearchTerm("hello:there i am a-test-string that.should.become lucne_firendly");
 
-  var html = '<h1>Hello World</h1>',
-      escaped = escape(html),
-      unescaped = unescape(escaped);
-
-  console.log('html', html, 'escaped', escaped, 'unescaped', unescaped);
+  console.log(lucene_parser.getOriginalSearchTerm());
+  console.log(lucene_parser.getFormattedSearchTerm());
 ```
 
 ## Tests
