@@ -1,48 +1,71 @@
 var should = require('chai').should(),
-    scapegoat = require('../index'),
-    escape = scapegoat.escape,
-    unescape = scapegoat.unescape;
+    lucene_parser = require('../index');
 
-describe('#escape', function() {
-  it('converts & into &amp;', function() {
-    escape('&').should.equal('&amp;');
+describe('Lucene parser should', function() {
+  it('convert hello:there into hello:"there"', function() {
+    lucene_parser.setSearchTerm('hello:there');
+    var lucene = lucene_parser.getFormattedSearchTerm();
+    lucene.should.equal('hello:"there"');
+  });
+  it('not touch hello:"there"', function() {
+    lucene_parser.setSearchTerm('hello:"there"');
+    var lucene = lucene_parser.getFormattedSearchTerm();
+    lucene.should.equal('hello:"there"');
   });
 
-  it('converts " into &quot;', function() {
-    escape('"').should.equal('&quot;');
+  it('handle ip adresses', function() {
+    lucene_parser.setSearchTerm('192.168.0.1');
+    var lucene = lucene_parser.getFormattedSearchTerm();
+    lucene.should.equal('"192.168.0.1"');
   });
 
-  it('converts \' into &#39;', function() {
-    escape('\'').should.equal('&#39;');
+  it('handle email adresses', function() {
+    lucene_parser.setSearchTerm('test.mail@test.com');
+    var lucene = lucene_parser.getFormattedSearchTerm();
+    lucene.should.equal('"test.mail@test.com"');
   });
 
-  it('converts < into &lt;', function() {
-    escape('<').should.equal('&lt;');
+  it('add wildcard to unregisred query-pattern', function() {
+    lucene_parser.setSearchTerm('test string');
+    var lucene = lucene_parser.getFormattedSearchTerm();
+    lucene.should.equal('test* string*');
   });
 
-  it('converts > into &gt;', function() {
-    escape('>').should.equal('&gt;');
-  });
-});
-
-describe('#unescape', function() {
-  it('converts &amp; into &', function() {
-    unescape('&amp;').should.equal('&');
+  it('convert query into qurey with wildcard', function() {
+    lucene_parser.setSearchTerm('test string');
+    var lucene = lucene_parser.getFormattedSearchTerm();
+    lucene.should.equal('test* string*');
   });
 
-  it('converts &quot; into "', function() {
-    unescape('&quot;').should.equal('"');
+  it('handle underscores', function() {
+    lucene_parser.setSearchTerm('test_string');
+    var lucene = lucene_parser.getFormattedSearchTerm();
+    lucene.should.equal('"test_string"');
   });
 
-  it('converts &#39; into \'', function() {
-    unescape('&#39;').should.equal('\'');
+  it('handle hyphens', function() {
+    lucene_parser.setSearchTerm('test-string');
+    var lucene = lucene_parser.getFormattedSearchTerm();
+    lucene.should.equal('"test-string"');
   });
 
-  it('converts &lt; into <', function() {
-    unescape('&lt;').should.equal('<');
+  it('handle AND & OR with wildcard', function() {
+    lucene_parser.setSearchTerm('this AND that OR them');
+    var lucene = lucene_parser.getFormattedSearchTerm();
+    lucene.should.equal('this* AND that* OR them*');
   });
 
-  it('converts &gt; into >', function() {
-    unescape('&gt;').should.equal('>');
+  it('handle AND & OR without wildcard', function() {
+    lucene_parser.setSearchTerm('"this" AND "that" OR "them"');
+    var lucene = lucene_parser.getFormattedSearchTerm();
+    lucene.should.equal('"this" AND "that" OR "them"');
   });
+
+  it('handle parse full lucne-searchterm', function() {
+    lucene_parser.setSearchTerm('this is-a test_with alot@mail.com 192.168.0.1 AND "this" OR that makes:no_sense at:"all in this life"');
+    var lucene = lucene_parser.getFormattedSearchTerm();
+    lucene.should.equal('this* "is-a" "test_with" "alot@mail.com" "192.168.0.1" AND this OR that* makes:"no_sense" at:"all in this life"');
+  });
+
+
 });

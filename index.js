@@ -79,7 +79,7 @@ LuceneParser.prototype.setSearchTerm = function(sSearchTerm) {
 };
 
 LuceneParser.prototype.getFormattedSearchTerm = function() {
-    return this.sFormattedSearchTerm;
+    return _.trim(this.sFormattedSearchTerm);
 };
 LuceneParser.prototype.getOriginalSearchTerm = function() {
     return this.sOriginalSearchTerm;
@@ -105,7 +105,6 @@ LuceneParser.prototype._parse = function() {
             this.sFormattedSearchTerm += sTerm + '* ';
         }
     }, this );
-    _.trim(this.sFormattedSearchTerm);
 };
 
 var parser = new LuceneParser();
