@@ -64,8 +64,7 @@ describe('Lucene parser should', function() {
   it('handle parse full lucne-searchterm', function() {
     lucene_parser.setSearchTerm('this is-a test_with alot@mail.com 192.168.0.1 AND "this" OR that makes:no_sense at:"all in this life"');
     var lucene = lucene_parser.getFormattedSearchTerm();
-    lucene.should.equal('this* "is-a" "test_with" "alot@mail.com" "192.168.0.1" AND this OR that* makes:"no_sense" at:"all in this life"');
+    lucene.should.equal('this* "is-a" "test_with" "alot@mail.com" "192.168.0.1" AND "this" OR that* makes:"no_sense" at:"all in this life"');
   });
-
 
 });
