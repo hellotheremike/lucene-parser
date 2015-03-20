@@ -1,7 +1,7 @@
 Lucene-parser
 =========
 
-A minimal node module providing utility methods to `parse` an `search query` to lucene syntax.
+A minimal node module providing utility methods to `parse` an `fetextquery` to `lucene syntax`.
 
 ## Installation
 
@@ -13,10 +13,12 @@ A minimal node module providing utility methods to `parse` an `search query` to 
 
 ```js
   var lucene_parser = require('lucene-parser')
-  lucene_parser.setSearchTerm("hello:there i am a-test-string that.should.become lucne_firendly");
+  lucene_parser.setSearchTerm("hello:there i am a-test-string that.should.become lucne_friendly");
 
   console.log(lucene_parser.getOriginalSearchTerm());
+  // hello:there i am a-test-string that.should.become lucne_friendly
   console.log(lucene_parser.getFormattedSearchTerm());
+  // hello:"there" i* am* "a-test-string" "that.should.become" "lucne_friendly"
 ```
 
 ## Tests
