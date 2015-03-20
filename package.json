@@ -1,6 +1,6 @@
 {
   "name": "lucene-parser",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A small library providing utility methods to escape and unescape HTML entities",
   "main": "index.js",
   "scripts": {
